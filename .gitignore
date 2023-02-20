@@ -8,10 +8,19 @@ node_modules
 # testing
 coverage
 
+# database
+/prisma/db.sqlite
+/prisma/db.sqlite-journal
+
 # next.js
 .next/
+.swc/
 out/
 build
+
+# production
+build
+dist
 
 # misc
 .DS_Store
@@ -24,10 +33,17 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env
+.env*.local
 
 # turbo
 .turbo
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# indexdb in ws-server, should remove
+dbDir/
