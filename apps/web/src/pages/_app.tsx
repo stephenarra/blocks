@@ -10,6 +10,7 @@ import { api } from "../utils/api";
 import "../styles/globals.css";
 import { AuthGuard } from "@/components/shared/AuthGuard";
 import { NextPage } from "next";
+import { Analytics } from "@vercel/analytics/react";
 
 export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
   requireAuth?: boolean;
@@ -50,6 +51,7 @@ const MyApp: AppType<{ session: Session | null }> = (props) => {
             <Component {...pageProps} />
           )}
         </main>
+        <Analytics />
       </SessionProvider>
     </>
   );
