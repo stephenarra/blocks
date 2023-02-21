@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 
 import websockets from "./websockets";
-// import routes from "./routes";
+import routes from "./routes";
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use("/", routes);
+app.use("/", routes);
 
 const server = app.listen(port);
 

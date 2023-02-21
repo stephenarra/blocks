@@ -7,7 +7,6 @@ import {
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
-// import { prisma } from "./db";
 import { prisma } from "database";
 
 /**
@@ -55,6 +54,10 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  theme: {
+    colorScheme: "light",
+    logo: "https://block-art.vercel.app/_next/image?url=%2Flogo.png&w=64&q=75",
+  },
 };
 
 /**
