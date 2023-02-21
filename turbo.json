@@ -4,33 +4,44 @@
   "globalEnv": [
     "NODE_ENV",
     "SKIP_ENV_VALIDATION",
-    "VERCEL_URL",
-    "VERCEL",
     "CI",
     "PORT",
     "DATABASE_URL",
-    "NEXTAUTH_SECRET",
-    "NEXTAUTH_URL",
-    "NODE_ENV",
-    "GOOGLE_CLIENT_ID",
-    "GOOGLE_CLIENT_SECRET",
-    "NEXT_PUBLIC_WS_SERVER"
+    "REDIS_URL"
   ],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": ["^build", "^db:generate"],
+      "outputs": ["dist/**"]
+    },
+    "web#build": {
+      "dependsOn": ["^build", "^db:generate"],
+      "env": [
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET",
+        "NEXT_PUBLIC_WS_SERVER",
+        "NEXTAUTH_SECRET",
+        "NEXTAUTH_URL",
+        "VERCEL_URL",
+        "VERCEL"
+      ],
+      "outputs": [".next/**"]
     },
     "db:migrate:deploy": {},
     "db:push": {},
     "db:seed": {},
     "dev": {
+      "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true
     },
-    "generate": {
-      "dependsOn": ["^generate"]
+    "db:generate": {
+      "dependsOn": ["^db:generate"]
     },
-    "lint": {}
+    "lint": {},
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+    }
   }
 }
