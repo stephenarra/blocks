@@ -37,6 +37,8 @@ const Editor = () => {
     },
   });
 
+  if (!model) return null;
+
   return (
     <>
       <div className="relative flex h-full w-full flex-col">
@@ -47,7 +49,7 @@ const Editor = () => {
               <ChevronLeft className="h-4 w-4" />
             </Link>
             <div
-              className="flex cursor-pointer items-center rounded py-1 px-2 hover:bg-gray-100"
+              className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-gray-100"
               onClick={() => {
                 setShowModal(true);
               }}
@@ -125,7 +127,6 @@ const Editor = () => {
           setShowModal={setShowModal}
           name={model.name || ""}
           onSubmit={({ name }) => {
-            debugger;
             updateModel.mutate({ id: model.id, data: { name } });
             setShowModal(false);
           }}

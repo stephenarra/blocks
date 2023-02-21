@@ -74,8 +74,6 @@ describe("Layers", () => {
       (d) => d.layer === layers[2]
     );
 
-    console.log("STATE:", store.sharedState);
-
     expect(Object.keys(store.sharedState.cubes).length).toEqual(2);
     expect(layer1Cubes.length).toEqual(1);
     expect(layer2Cubes.length).toEqual(1);

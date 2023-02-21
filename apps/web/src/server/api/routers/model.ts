@@ -63,7 +63,6 @@ export const modelRouter = createTRPCRouter({
   update: protectedProcedure
     .input(z.object({ id: z.string(), data: z.object({ name: z.string() }) }))
     .mutation(({ input, ctx }) => {
-      console.log("INPUT:", input);
       return ctx.prisma.model.update({
         where: { id: input.id },
         data: input.data,

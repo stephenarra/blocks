@@ -6,6 +6,17 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+env:
+  DATABASE_URL: "postgres://username:password@localhost:5432/blocks_db"
+  REDIS_URL: "redis://127.0.0.1:6379/0"
+  GOOGLE_CLIENT_ID: "123"
+  GOOGLE_CLIENT_SECRET: "123"
+  NEXTAUTH_SECRET: "secret"
+  NEXTAUTH_URL: "http://localhost:3000"
+  NEXT_PUBLIC_WS_SERVER: "ws://localhost:4444"
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PLAYWRIGHT_BROWSERS_PATH: 0
+
 jobs:
   build:
     name: Build and Test
@@ -28,8 +39,11 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - name: Run Postgres and Redis
+        run: docker-compose up -d
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
