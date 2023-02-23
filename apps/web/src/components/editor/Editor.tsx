@@ -43,7 +43,7 @@ const Editor = () => {
     <>
       <div className="relative flex h-full w-full flex-col">
         {/* Header */}
-        <div className="flex h-14 shrink-0 items-center justify-center border-b border-gray-200 px-4 lg:justify-between">
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 px-4">
           <div className="flex items-center">
             <Link href="/dashboard" className="mr-4 rounded bg-gray-100 p-2">
               <ChevronLeft className="h-4 w-4" />
@@ -59,7 +59,7 @@ const Editor = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="hidden items-center gap-6 lg:flex">
+            <div className="flex items-center gap-6">
               <Users />
               <ShareButton />
               <UserDropdown />
@@ -86,7 +86,6 @@ const Editor = () => {
             {mobileMenuOpen && (
               <div className="absolute top-0 bottom-0 left-0 z-20 w-80 overflow-y-auto bg-white shadow lg:hidden">
                 <div className="mt-6 flex flex-col gap-4">
-                  <UserDropdown mobile={true} />
                   <Layers />
                 </div>
               </div>

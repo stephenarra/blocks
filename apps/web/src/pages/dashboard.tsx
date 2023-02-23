@@ -68,7 +68,7 @@ export default function Home() {
         <div className="mx-auto flex w-full max-w-7xl flex-wrap gap-4 px-10 first-letter:items-start md:px-16">
           {models.map((model) => (
             <Link
-              className="flex h-72 w-72 flex-col overflow-hidden rounded border border-gray-200 py-4 px-4 hover:bg-gray-50"
+              className="flex h-72 w-72 flex-col overflow-hidden rounded border border-gray-200 px-4 py-4 hover:bg-gray-50"
               key={model.id}
               href={`/m/${model.id}`}
             >
@@ -87,36 +87,3 @@ export default function Home() {
 }
 
 Home.requireAuth = true;
-
-// const router = useRouter();
-// const roomId = router.query.roomId as string;
-
-// useEffect(() => {
-//   if (!router.isReady || roomId) return;
-//   router.replace({
-//     query: { ...router.query, roomId: generateId() },
-//   });
-// }, [router, roomId]);
-
-// const [name, setName] = useStickyState("", "user-name");
-// const [showModal, setShowModal] = useState(false);
-
-// // Can't set modal to true on first render
-// // https://github.com/radix-ui/primitives/issues/1386
-// useEffect(() => {
-//   if (!name) {
-//     setShowModal(true);
-//   }
-// }, []); // eslint-disable-line
-//
-// {/* Edit Name Modal */}
-// <UserModal
-//   showModal={showModal}
-//   setShowModal={setShowModal}
-//   onSubmit={({ name }) => {
-//     setShowModal(false);
-//     setName(name);
-//   }}
-//   submitText={roomId ? "Join" : "Create"}
-//   showClose={false}
-// />
