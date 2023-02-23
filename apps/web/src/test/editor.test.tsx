@@ -1,11 +1,11 @@
+import { expect, it, describe } from "vitest";
 import { screen, within, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { renderWithProviders } from "../test-utils";
-
-// jest.mock("next/router", () => require("next-router-mock"));
+import { renderWithProviders } from "./helpers/test-utils";
 
 import Editor from "@/components/editor/Editor";
 
+// need to mock queries
 describe.skip("Layers", () => {
   it("can add layer", async () => {
     const user = userEvent.setup();

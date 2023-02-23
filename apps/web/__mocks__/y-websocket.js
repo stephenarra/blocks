@@ -1,8 +1,9 @@
-const mock = jest.fn();
+import { vi } from "vitest";
+const mock = vi.fn();
 
 const clientID = 1;
 
-export const WebsocketProvider = jest.fn().mockImplementation(() => {
+export const WebsocketProvider = vi.fn().mockImplementation(() => {
   const map = new Map();
   return {
     on: () => {},

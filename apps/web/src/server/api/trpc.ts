@@ -19,11 +19,11 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "../auth";
-// import { prisma } from "../db";
-import { prisma } from "database";
+import { prisma, PrismaClient } from "database";
 
 type CreateContextOptions = {
   session: Session | null;
+  prisma?: PrismaClient;
 };
 
 /**
@@ -36,10 +36,10 @@ type CreateContextOptions = {
  *
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
-    prisma,
+    prisma: opts.prisma || prisma,
   };
 };
 

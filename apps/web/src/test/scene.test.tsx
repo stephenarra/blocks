@@ -1,10 +1,12 @@
-import Cubes from "@/components/editor/Cubes";
-import Scene from "@/components/editor/Scene";
+import { expect, it, describe } from "vitest";
 import {
   renderWithProviders,
   renderReactThreeWithProvider,
-} from "../test-utils";
+} from "./helpers/test-utils";
 import { act } from "react-dom/test-utils";
+
+import Cubes from "@/components/editor/Cubes";
+import Scene from "@/components/editor/Scene";
 import { ERASE_MODE } from "@/stores/store";
 
 /**
