@@ -14,6 +14,8 @@
     "test:server:watch": "npm run with-env -- vitest -c ./vitest.config.node.ts",
     "test": "npm run test:frontend & npm run test:server",
     "test:watch": "npm run test:frontend:watch & npm run test:server:watch",
+    "test:e2e": "playwright test",
+    "codegen": "playwright codegen --load-storage playwright/.auth/user.json http://localhost:3000",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {

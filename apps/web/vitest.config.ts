@@ -8,7 +8,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ["src/test/helpers/setup.ts"],
     environment: "jsdom",
-    exclude: [...configDefaults.exclude, "**/e2e/**", "src/server"],
+    exclude: [...configDefaults.exclude, "**/playwright/**", "src/server"],
     alias: {
       "@/": fileURLToPath(new URL("./src/", import.meta.url)),
     },
