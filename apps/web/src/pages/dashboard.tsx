@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { api } from "../utils/api";
 import Layout from "@/components/home/Layout";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import { CubesRenderer } from "@/components/editor/Cubes";
 import { Model } from "database";
@@ -80,7 +80,9 @@ export default function Home() {
           ))}
         </div>
       ) : (
-        "Loading..."
+        <div className="flex h-full w-full items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
       )}
     </Layout>
   );

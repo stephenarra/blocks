@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
+import { Loader2 } from "lucide-react";
 
 export function AuthGuard({ children }: { children: JSX.Element }) {
   const { status, data: user } = useSession();
@@ -19,7 +20,11 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
 
   /* show loading indicator while the auth provider is still initializing */
   if (status === "loading") {
-    return <h1>Application Loading</h1>;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   // if auth initialized with a valid user show protected page
