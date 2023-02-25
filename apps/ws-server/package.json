@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npm run with-env npx tsc",
     "clean": "rimraf .turbo node_modules dist",
-    "start": "node dist/index.js",
+    "start": "npm run with-env node dist/index.js",
     "dev": "npm run with-env concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "lint": "eslint \"src/**/*.ts\"",
     "with-env": "dotenv -e ../../.env --"

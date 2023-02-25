@@ -34,21 +34,16 @@ describe("Landing Page", () => {
   });
 
   it("renders user dropdown when logged in", async () => {
-    const user = userEvent.setup();
-
     mockUseSession.mockReturnValue({
       status: "authenticated",
       data: { user: { id: "1", name: "Sam" } },
     });
 
     render(<MyPage />);
-    const signInButton = screen.queryByRole("button", {
-      name: "Login",
-    });
 
-    const userDropdown = screen.queryByTestId("user-dropdown");
-
-    expect(signInButton).not.toBeInTheDocument();
-    expect(userDropdown).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Login" })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("user-dropdown")).toBeInTheDocument();
   });
 });

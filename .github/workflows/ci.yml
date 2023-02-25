@@ -20,7 +20,7 @@ env:
 jobs:
   build:
     name: Build and Test
-    timeout-minutes: 15
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     env:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
@@ -48,5 +48,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm run test
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Push Database Schema
+        run: npx turbo run db:push
+
+      - name: Start and Test
+        run: npm run start &
+          sleep 5 &&
+          curl http://localhost:3000 -I &&
+          npm run test
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
