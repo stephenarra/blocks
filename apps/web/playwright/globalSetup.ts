@@ -10,7 +10,7 @@ async function globalSetup() {
   const storagePath = path.resolve(__dirname, ".auth/user.json");
 
   const date = new Date();
-  const futureDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  const futureDate = new Date(date.getFullYear(), date.getMonth() + 2, 0);
   const sessionToken = "04456e41-ec3b-4edf-92c1-48c14e57cacd2";
 
   // make sure a test user exists in our local database

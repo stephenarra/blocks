@@ -16,9 +16,6 @@ const messageSync = 0;
 const messageAwareness = 1;
 // const messageAuth = 2
 
-/**
- * Gets a Y.Doc by name, whether in memory or on disk
- */
 export const getYDoc = (docname: string, gc = true): WSSharedDoc =>
   map.setIfUndefined(docs, docname, () => {
     const doc = new WSSharedDoc(docname);
@@ -109,14 +106,14 @@ export const setupWSConnection = (
   { docName = req.url.slice(1).split("?")[0], gc = true } = {}
 ) => {
   conn.binaryType = "arraybuffer";
+
   // get doc, initialize if it does not exist yet
   const doc = getYDoc(docName, gc);
   doc.conns.set(conn, new Set());
+
   // listen and reply to events
-  conn.on(
-    "message",
-    /** @param {ArrayBuffer} message */ (message) =>
-      messageListener(conn, doc, new Uint8Array(message))
+  conn.on("message", (message: ArrayBuffer) =>
+    messageListener(conn, doc, new Uint8Array(message))
   );
 
   // Check if connection is still alive

@@ -17,7 +17,7 @@
     "db:seed": "tsx src/seed.ts",
     "dev": "tsup --watch",
     "format": "prisma format",
-    "generate": "prisma generate",
+    "generate": "npm run with-env prisma generate",
     "lint": "eslint \"src/**/*.ts\"",
     "prebuild": "npm run generate",
     "predev": "npm run generate",

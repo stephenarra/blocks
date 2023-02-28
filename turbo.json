@@ -10,12 +10,24 @@
     "REDIS_URL"
   ],
   "pipeline": {
+    "db:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "db:push": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
-      "dependsOn": ["^build", "db:generate"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": ["dist/**"]
     },
     "web#build": {
-      "dependsOn": ["^build", "db:generate"],
+      "dependsOn": ["^build", "^db:generate"],
       "env": [
         "GOOGLE_CLIENT_ID",
         "GOOGLE_CLIENT_SECRET",
@@ -28,22 +40,13 @@
       "outputs": [".next/**"]
     },
     "start": {
-      "dependsOn": ["^build", "db:generate"]
+      "dependsOn": ["^build", "^db:generate"]
     },
     "db:migrate:deploy": {},
-    "db:push": {},
     "db:seed": {},
-    "dev": {
-      "dependsOn": ["db:generate"],
-      "cache": false,
-      "persistent": true
-    },
-    "db:generate": {
-      "dependsOn": ["^db:generate"]
-    },
     "lint": {},
     "test": {
-      "dependsOn": ["build", "db:generate"],
+      "dependsOn": ["^build", "^db:generate"],
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
     }
   }

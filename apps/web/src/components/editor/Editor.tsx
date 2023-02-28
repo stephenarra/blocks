@@ -21,21 +21,9 @@ import { EditModal } from "./EditModal";
 const Editor = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState<string | undefined>();
   const { id } = useStore();
 
-  const utils = api.useContext();
   const { data: model } = api.model.get.useQuery({ id });
-  const updateModel = api.model.update.useMutation({
-    onSuccess: () => {
-      utils.model.get.invalidate();
-      setError(undefined);
-    },
-    onError: (e) => {
-      // todo: show error
-      setError(e.message);
-    },
-  });
 
   if (!model) return null;
 
@@ -124,9 +112,9 @@ const Editor = () => {
         <EditModal
           showModal={showModal}
           setShowModal={setShowModal}
+          id={model.id}
           name={model.name || ""}
-          onSubmit={({ name }) => {
-            updateModel.mutate({ id: model.id, data: { name } });
+          onClose={() => {
             setShowModal(false);
           }}
         />
