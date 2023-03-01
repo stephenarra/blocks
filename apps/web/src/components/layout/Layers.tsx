@@ -4,7 +4,7 @@ import { Button } from "@/lib/ui/button";
 import { Label } from "@/lib/ui/label";
 import { cn } from "@/lib/utils";
 import useDoubleClick from "@/lib/hooks/use-double-click";
-import { useActions, useLayers, useLocalState } from "@/stores/store";
+import { useActions, useLayers, useLocalState } from "@/stores/editor/useStore";
 
 const Layer = ({
   name,
@@ -42,7 +42,7 @@ const Layer = ({
   return (
     <div
       className={cn(
-        "flex items-center w-full gap-2 rounded overflow-hidden",
+        "flex w-full items-center gap-2 overflow-hidden rounded",
         isActive && "bg-slate-200"
       )}
       onClick={setActive}
@@ -50,13 +50,13 @@ const Layer = ({
       <Button
         aria-label="visibility"
         variant="ghost"
-        className="p-2 rounded-none focus:ring-0 focus:ring-offset-0"
+        className="rounded-none p-2 focus:ring-0 focus:ring-offset-0"
         onClick={(e) => {
           e.stopPropagation();
           onToggleVisibility();
         }}
       >
-        {visible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+        {visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
       </Button>
       <div className="flex-1">
         {!isEditing ? (
@@ -97,13 +97,13 @@ const Layer = ({
       <Button
         aria-label="delete"
         variant="ghost"
-        className="p-2 rounded-none focus:ring-0 focus:ring-offset-0"
+        className="rounded-none p-2 focus:ring-0 focus:ring-offset-0"
         onClick={(e) => {
           e.stopPropagation();
           onRemove();
         }}
       >
-        <Trash className="w-4 h-4" />
+        <Trash className="h-4 w-4" />
       </Button>
     </div>
   );
@@ -115,7 +115,7 @@ export default function Layers() {
   const layers = useLayers();
 
   return (
-    <div className="flex flex-col w-full gap-2 p-2" data-testid="layers">
+    <div className="flex w-full flex-col gap-2 p-2" data-testid="layers">
       <Label>Layers</Label>
       <Button
         onClick={addLayer}
@@ -123,7 +123,7 @@ export default function Layers() {
         className="justify-start"
         data-testid="add-layer"
       >
-        <Plus className="w-4 h-4 mr-2" /> Add Layer
+        <Plus className="mr-2 h-4 w-4" /> Add Layer
       </Button>
       <div>
         {layers.map((layer) => (

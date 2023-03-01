@@ -3,10 +3,15 @@ import { useGesture } from "@use-gesture/react";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { snap } from "@/lib/utils";
-import { COLOR_MODE, useActions, useLocalState } from "@/stores/store";
 import { Edges } from "@react-three/drei";
 
-import { SELECT_MODE, DRAW_MODE, ERASE_MODE } from "@/stores/store";
+import { useActions, useLocalState } from "@/stores/editor/useStore";
+import {
+  COLOR_MODE,
+  SELECT_MODE,
+  DRAW_MODE,
+  ERASE_MODE,
+} from "@/stores/editor/store";
 import { useRef } from "react";
 
 const faceDirection = [

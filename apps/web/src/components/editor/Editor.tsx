@@ -13,7 +13,7 @@ import Layers from "@/components/layout/Layers";
 import ShareButton from "@/components/shared/ShareButton";
 import Scene from "@/components/editor/Scene";
 import Link from "next/link";
-import { useStore } from "@/stores/store";
+import { useStore } from "@/stores/editor/useStore";
 import { api } from "@/utils/api";
 
 import { EditModal } from "./EditModal";

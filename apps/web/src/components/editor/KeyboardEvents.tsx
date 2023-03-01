@@ -5,7 +5,7 @@ import {
   ERASE_MODE,
   SELECT_MODE,
   useActions,
-} from "@/stores/store";
+} from "@/stores/editor/useStore";
 
 export default function KeyboardEvents() {
   const { undo, redo, removeSelected, setMode } = useActions();

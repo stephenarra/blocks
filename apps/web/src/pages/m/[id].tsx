@@ -1,32 +1,21 @@
 import { useRouter } from "next/router";
-import { StoreProvider } from "@/stores/store";
-import Editor from "@/components/editor/Editor";
 
 import { api } from "@/utils/api";
-import { useEffect } from "react";
+import Viewer from "@/components/viewer";
+import Layout from "@/components/home/Layout";
 
 export default function Model() {
   const router = useRouter();
   const id = router.query.id as string;
-
-  // force only fetch once
-  const { data: model, refetch } = api.model.get.useQuery(
-    { id },
-    { enabled: false }
-  );
-  useEffect(() => {
-    if (id) {
-      refetch();
-    }
-  }, [id, refetch]);
+  const { data: model } = api.model.get.useQuery({ id });
 
   if (!model) return null;
 
   return (
-    <div className="h-full w-full">
-      <StoreProvider model={model}>
-        <Editor />
-      </StoreProvider>
-    </div>
+    <Layout>
+      <div className="h-full w-full">
+        <Viewer model={model} orbit={true} />
+      </div>
+    </Layout>
   );
 }

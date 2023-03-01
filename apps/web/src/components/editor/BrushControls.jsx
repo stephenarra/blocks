@@ -4,7 +4,7 @@ import { useThree } from "@react-three/fiber";
 import { useGesture } from "@use-gesture/react";
 import * as THREE from "three";
 import { snap } from "@/lib/utils";
-import { useActions } from "@/stores/store";
+import { useActions } from "@/stores/useStore";
 
 const faceDirection = [
   [1, 0, 0],

@@ -7,7 +7,7 @@ import { act } from "react-dom/test-utils";
 
 import Cubes from "@/components/editor/Cubes";
 import Scene from "@/components/editor/Scene";
-import { ERASE_MODE } from "@/stores/store";
+import { ERASE_MODE } from "@/stores/editor/store";
 
 /**
  * This testing is heavy on store implementation details,
