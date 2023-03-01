@@ -11,6 +11,7 @@ import "../styles/globals.css";
 import { AuthGuard } from "@/components/shared/AuthGuard";
 import { NextPage } from "next";
 import { Analytics } from "@vercel/analytics/react";
+import HealthCheck from "@/components/shared/HealthCheck";
 
 export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
   requireAuth?: boolean;
@@ -52,6 +53,7 @@ const MyApp: AppType<{ session: Session | null }> = (props) => {
           )}
         </main>
         <Analytics />
+        <HealthCheck />
       </SessionProvider>
     </>
   );
