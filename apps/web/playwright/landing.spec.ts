@@ -1,19 +1,12 @@
 import { test, expect } from "@playwright/test";
 
-test("has title", async ({ page }) => {
-  await page.goto("/");
-
-  await expect(page).toHaveTitle(/Voxel Builder/);
-});
-
 test("get started link and login", async ({ page }) => {
   await page.goto("/");
+  await expect(page).toHaveTitle(/Voxel Builder/);
   await page.getByRole("button", { name: "Get Started" }).click();
 
   await expect(page).toHaveURL(/.*accounts.google.com/);
-});
 
-test("has login button", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Login" }).click();
 
@@ -29,12 +22,30 @@ test.describe("auth", () => {
     await expect(page.getByTestId("user-dropdown")).toBeVisible();
   });
 
-  test("can create a model", async ({ page }) => {
+  test("can crud a model", async ({ page }) => {
     await page.goto("/");
 
     await page.getByRole("link", { name: "Dashboard" }).click();
     await page.getByRole("button", { name: "Create New" }).click();
 
     await expect(page).toHaveURL(/m\/.*/);
+
+    // update model name
+    await page.getByTestId("model-name").click();
+    await page.getByPlaceholder("Name").fill("Model Name");
+    await page.getByRole("button", { name: "Save" }).click();
+
+    await expect(page.getByTestId("model-name")).toHaveText("Model Name");
+    await page.getByTestId("back").click();
+    await page.getByRole("link", { name: "Model Name" }).click();
+
+    // delete model
+    await page.getByTestId("model-name").click();
+    await page.getByRole("button", { name: "Delete" }).click();
+
+    await expect(page).toHaveURL("/dashboard");
+    expect(
+      await page.getByRole("link", { name: "Model Name" }).count()
+    ).toEqual(0);
   });
 });

@@ -20,7 +20,6 @@ const persistence = {
   bindState: async (docName: string, ydoc: WSSharedDoc) => {
     // get from redis
     const doc = provider.docs.get(docName);
-    console.log(doc);
     if (doc) {
       return doc;
     }
@@ -57,7 +56,7 @@ const persistence = {
       data: { data: base64Encoded },
     });
 
-    console.log("UPDATE::updated::", docName, ydoc.getMap("cubes").toJSON());
+    console.log("UPDATE::updated::", docName);
   },
 };
 

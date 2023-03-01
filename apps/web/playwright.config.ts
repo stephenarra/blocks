@@ -36,6 +36,7 @@ export default defineConfig({
   reporter: "html",
 
   globalSetup: "./playwright/globalSetup.ts",
+  globalTeardown: "./playwright/globalTeardown.ts",
 
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

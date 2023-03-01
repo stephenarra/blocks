@@ -33,10 +33,15 @@ const Editor = () => {
         {/* Header */}
         <div className="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 px-4">
           <div className="flex items-center">
-            <Link href="/dashboard" className="mr-4 rounded bg-gray-100 p-2">
+            <Link
+              href="/dashboard"
+              data-testid="back"
+              className="mr-4 rounded bg-gray-100 p-2"
+            >
               <ChevronLeft className="h-4 w-4" />
             </Link>
             <div
+              data-testid="model-name"
               className="flex cursor-pointer items-center rounded px-2 py-1 hover:bg-gray-100"
               onClick={() => {
                 setShowModal(true);
