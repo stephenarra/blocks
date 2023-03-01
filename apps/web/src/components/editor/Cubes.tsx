@@ -1,4 +1,4 @@
-import { useVisibleCubes } from "@/stores/store";
+import { useVisibleCubes } from "@/stores/editor/useStore";
 import { Instance, Instances } from "@react-three/drei";
 
 interface CubeProps {

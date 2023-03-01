@@ -1,30 +1,15 @@
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  createContext,
-  useContext,
-} from "react";
-import { proxy, useSnapshot, subscribe } from "valtio";
+import { proxy, subscribe } from "valtio";
 
 import * as Y from "yjs";
-import * as yPresence from "y-presence";
 import { bind } from "valtio-yjs";
-import { get, set, cloneDeep, xor, pick, uniq } from "lodash";
+import { toUint8Array } from "js-base64";
+import { get, set, cloneDeep, xor, pick } from "lodash";
 // import { WebrtcProvider } from "y-webrtc";
 import { WebsocketProvider } from "y-websocket";
 import { type Model } from "database";
 
 import { generateId, getNextId } from "@/lib/utils";
-
-import {
-  type SharedState,
-  type Position,
-  type Cube,
-  type Layer,
-  getBaseDocument,
-  DEFAULT_SHARED_STATE,
-} from "./sharedDocument";
+import { env } from "@/env.mjs";
 
 export const DRAW_MODE = "draw" as const;
 export const SELECT_MODE = "select" as const;
@@ -33,6 +18,25 @@ export const COLOR_MODE = "color" as const;
 const MODES = [DRAW_MODE, SELECT_MODE, ERASE_MODE, COLOR_MODE] as const;
 
 type Mode = (typeof MODES)[number];
+
+export type Position = [x: number, y: number, z: number];
+
+export interface Layer {
+  name: string;
+  visible: boolean;
+}
+
+export interface Cube {
+  position: Position;
+  color: string;
+  layer: string;
+}
+
+export interface SharedState {
+  cubes: { [key: string]: Cube };
+  layers: { [key: string]: Layer };
+  layerOrder: string[];
+}
 
 export interface LocalState {
   color: string;
@@ -49,6 +53,12 @@ export interface AwarenessProps {
   position: Position;
 }
 
+export const DEFAULT_SHARED_STATE: SharedState = {
+  cubes: {},
+  layers: { layer_1: { name: "Layer 1", visible: true } },
+  layerOrder: ["layer_1"],
+};
+
 const DEFAULT_LOCAL_STATE: LocalState = {
   color: "#3C82F6",
   position: null,
@@ -57,9 +67,13 @@ const DEFAULT_LOCAL_STATE: LocalState = {
   mode: DRAW_MODE,
 };
 const AWARENESS_PROPS = ["color", "position", "mode"];
-
-import { env } from "../env.mjs";
 const wsServerUrl = env.NEXT_PUBLIC_WS_SERVER || "ws://localhost:4444";
+
+export const getBaseDocument = (docStr: string) => {
+  const ydoc = new Y.Doc();
+  Y.applyUpdate(ydoc, toUint8Array(docStr));
+  return ydoc;
+};
 
 export const createStore = (model: Model) => {
   const ydoc = getBaseDocument(model.data);
@@ -297,113 +311,6 @@ export const createStore = (model: Model) => {
       undoManager.destroy();
     },
   };
-};
-
-type StoreProps = ReturnType<typeof createStore>;
-
-export const StoreContext = createContext<StoreProps>({} as never);
-
-export const StoreProvider = ({
-  model,
-  children,
-}: {
-  model: Model;
-  children: React.ReactNode;
-}) => {
-  const [store, setStore] = useState<ReturnType<typeof createStore>>();
-
-  useEffect(
-    () => {
-      const _store = createStore(model);
-      setStore(_store);
-
-      return () => {
-        _store.destroy();
-        setStore(undefined);
-      };
-    },
-    // don't rebuild document for existing model
-    [model.id] // eslint-disable-line
-  );
-
-  if (store === undefined) return null;
-
-  return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
-  );
-};
-
-export const useStore = () => useContext(StoreContext);
-
-export const useUsers = () => {
-  const { provider } = useStore();
-  return yPresence.useUsers(provider.awareness) as Map<number, AwarenessProps>;
-};
-
-export const useSelf = () => {
-  const { provider } = useStore();
-  return yPresence.useSelf(provider.awareness);
-};
-
-export const useActions = () => {
-  const { actions } = useStore();
-  return actions;
-};
-
-export const useUndoStack = () => {
-  const { undoManager } = useStore();
-  const [stacks, setStacks] = useState<{
-    undoStack: typeof undoManager.undoStack;
-    redoStack: typeof undoManager.undoStack;
-  }>({ undoStack: [], redoStack: [] });
-
-  undoManager.on("stack-item-added", () => {
-    setStacks(pick(undoManager, ["undoStack", "redoStack"]));
-  });
-
-  undoManager.on("stack-item-popped", () => {
-    setStacks(pick(undoManager, ["undoStack", "redoStack"]));
-  });
-
-  return stacks;
-};
-
-export const useLocalState = () => {
-  const { localState } = useStore();
-  return useSnapshot(localState);
-};
-
-export const useSharedState = () => {
-  const { sharedState } = useStore();
-  return useSnapshot(sharedState);
-};
-
-export const useVisibleCubes = () => {
-  const { cubes, layers } = useSharedState();
-  return useMemo(() => {
-    return Object.keys(cubes)
-      .filter((id) => layers[cubes[id].layer].visible)
-      .map((id) => ({ id, ...cubes[id] }));
-  }, [cubes, layers]);
-};
-
-export const useSelectedCubes = () => {
-  const { cubes } = useSharedState();
-  const { selected } = useLocalState();
-  return selected.map((id) => ({ id, ...cubes[id] }));
-};
-
-export const useUsedColors = () => {
-  const { cubes } = useSharedState();
-  return uniq(Object.values(cubes).map((d) => d.color));
-};
-
-export const useLayers = () => {
-  const { layers, layerOrder } = useSharedState();
-  return useMemo(
-    () => layerOrder.map((id) => ({ id, ...layers[id] })),
-    [layers, layerOrder]
-  );
 };
 
 const getCubeMap = (cubes: SharedState["cubes"]) => {

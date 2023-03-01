@@ -5,6 +5,7 @@ import { Button } from "@/lib/ui/button";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { signIn, useSession } from "next-auth/react";
+import { ExploreModels } from "./explore";
 
 const variants = {
   top: {
@@ -88,14 +89,12 @@ const Home: NextPage = () => {
       </div>
       <hr className="border-slate-200" />
       <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 sm:px-6 md:py-16 lg:py-20 lg:px-14 xl:py-24">
-        <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
-          <motion.div className="text-3xl font-bold leading-[1.1] tracking-tighter sm:text-5xl md:text-6xl">
+        <div className="flex flex-col items-center gap-4 pb-8 text-center lg:items-start lg:text-left ">
+          <motion.div className="text-3xl font-bold leading-[1.1] tracking-tighter sm:text-4xl md:text-4xl">
             Explore
           </motion.div>
-          <p className="max-w-[42rem] leading-normal text-slate-700 sm:text-xl sm:leading-8">
-            Coming soon.
-          </p>
         </div>
+        <ExploreModels />
       </div>
     </Layout>
   );

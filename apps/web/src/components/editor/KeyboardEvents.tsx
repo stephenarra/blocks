@@ -1,11 +1,11 @@
 import { useHotkeys } from "react-hotkeys-hook";
+import { useActions } from "@/stores/editor/useStore";
 import {
   COLOR_MODE,
   DRAW_MODE,
   ERASE_MODE,
   SELECT_MODE,
-  useActions,
-} from "@/stores/store";
+} from "@/stores/editor/store";
 
 export default function KeyboardEvents() {
   const { undo, redo, removeSelected, setMode } = useActions();

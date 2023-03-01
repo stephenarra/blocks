@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { type Vector3 } from "@react-three/fiber";
 import { Edges } from "@react-three/drei";
-import { useSelectedCubes } from "@/stores/store";
+import { useSelectedCubes } from "@/stores/editor/useStore";
 
 const Cube = ({ position, color }: { position: Vector3; color: string }) => {
   return (

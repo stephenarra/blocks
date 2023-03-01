@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 const items = [
   { title: "Dashboard", disabled: false, href: "/dashboard" },
-  { title: "Explore", disabled: true, href: "/explore" },
+  { title: "Explore", disabled: false, href: "/explore" },
 ];
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

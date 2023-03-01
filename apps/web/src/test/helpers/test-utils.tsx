@@ -3,7 +3,8 @@ import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
 import ReactThreeTestRenderer from "@react-three/test-renderer";
 
-import { StoreContext, createStore } from "@/stores/store";
+import { createStore } from "@/stores/editor/store";
+import { StoreContext } from "@/stores/editor/useStore";
 import { SessionProvider } from "next-auth/react";
 
 const testModel = {

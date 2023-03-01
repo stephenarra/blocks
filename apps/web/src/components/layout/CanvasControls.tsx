@@ -1,12 +1,11 @@
 import { MousePointer2, Pencil, Eraser, Paintbrush } from "lucide-react";
 import {
-  useActions,
-  useLocalState,
   SELECT_MODE,
   DRAW_MODE,
   ERASE_MODE,
   COLOR_MODE,
-} from "@/stores/store";
+} from "@/stores/editor/store";
+import { useActions, useLocalState } from "@/stores/editor/useStore";
 import Control from "../shared/Control";
 
 const SELECTED_CLASSES = "bg-blue-500 text-white";

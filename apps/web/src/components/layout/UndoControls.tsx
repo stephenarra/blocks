@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useUndoStack, useActions } from "@/stores/store";
+import { useUndoStack, useActions } from "@/stores/editor/useStore";
 import Control from "../shared/Control";
 
 const Controls = () => {

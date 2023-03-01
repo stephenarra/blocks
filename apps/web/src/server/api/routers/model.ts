@@ -36,7 +36,7 @@ export const modelRouter = createTRPCRouter({
       return ctx.prisma.model.findUnique({ where: { id: input.id } });
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
+  getPublished: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.model.findMany({ where: { published: true } });
   }),
 
@@ -47,7 +47,12 @@ export const modelRouter = createTRPCRouter({
   }),
 
   update: protectedProcedure
-    .input(z.object({ id: z.string(), data: z.object({ name: z.string() }) }))
+    .input(
+      z.object({
+        id: z.string(),
+        data: z.object({ name: z.string(), published: z.boolean() }),
+      })
+    )
     .mutation(({ input, ctx }) => {
       return ctx.prisma.model.update({
         where: { id: input.id },

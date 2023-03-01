@@ -44,6 +44,10 @@ test.describe("auth", () => {
     await page.getByRole("button", { name: "Delete" }).click();
 
     await expect(page).toHaveURL("/dashboard");
+
+    await page
+      .getByRole("link", { name: "Model Name" })
+      .waitFor({ state: "detached" });
     expect(
       await page.getByRole("link", { name: "Model Name" }).count()
     ).toEqual(0);

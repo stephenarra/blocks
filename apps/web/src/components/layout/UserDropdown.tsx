@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useActions } from "@/stores/store";
+import { useActions } from "@/stores/editor/useStore";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,5 +1,5 @@
 import Avatar from "boring-avatars";
-import { useStore, useUsers } from "@/stores/store";
+import { useStore, useUsers } from "@/stores/editor/useStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/lib/ui/tooltip";
 
 export default function Users() {
@@ -14,7 +14,7 @@ export default function Users() {
           <Tooltip key={id} delayDuration={200}>
             <TooltipTrigger>
               <div
-                className="overflow-hidden border-2 border-white rounded-full outline outline-2"
+                className="overflow-hidden rounded-full border-2 border-white outline outline-2"
                 style={{ outlineColor: data.color }}
               >
                 <Avatar

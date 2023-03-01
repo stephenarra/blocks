@@ -2,9 +2,8 @@ import {
   type AwarenessProps,
   COLOR_MODE,
   DRAW_MODE,
-  useStore,
-  useUsers,
-} from "@/stores/store";
+} from "@/stores/editor/store";
+import { useStore, useUsers } from "@/stores/editor/useStore";
 
 const arr = [DRAW_MODE, COLOR_MODE] as string[];
 const getColor = (data: AwarenessProps) => {

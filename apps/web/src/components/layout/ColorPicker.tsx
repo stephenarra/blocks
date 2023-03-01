@@ -1,6 +1,10 @@
 import { Label } from "@/lib/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/lib/ui/popover";
-import { useActions, useLocalState, useUsedColors } from "@/stores/store";
+import {
+  useActions,
+  useLocalState,
+  useUsedColors,
+} from "@/stores/editor/useStore";
 import BaseColorPicker from "@/components/shared/ColorPicker";
 import Colors from "@/components/shared/Colors";
 import { useState } from "react";
@@ -46,7 +50,7 @@ export const MobileColorPicker = () => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
-          className="w-8 h-8 border-2 border-white rounded-full outline-1 outline-gray-300 outline"
+          className="h-8 w-8 rounded-full border-2 border-white outline outline-1 outline-gray-300"
           style={{ background: color }}
         ></button>
       </PopoverTrigger>
@@ -78,7 +82,7 @@ export const ColorPicker = () => {
         <Popover>
           <PopoverTrigger asChild>
             <button
-              className="w-full h-8 border-4 border-white rounded outline-1 outline-gray-300 outline"
+              className="h-8 w-full rounded border-4 border-white outline outline-1 outline-gray-300"
               style={{ background: color }}
             ></button>
           </PopoverTrigger>
