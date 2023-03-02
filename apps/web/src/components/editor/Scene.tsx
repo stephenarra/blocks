@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, GizmoHelper, GizmoViewcube } from "@react-three/drei";
+import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 import Cubes from "./Cubes";
 import Background from "./Background";
@@ -9,6 +10,7 @@ import KeyboardEvents from "./KeyboardEvents";
 import PointerControls from "./PointerControls";
 import SelectedCubes from "./SelectedCubes";
 import { SIZE } from "@/lib/utils";
+import { Vector3 } from "three";
 
 export default function Scene() {
   const [drag, setDrag] = useState(false);
@@ -61,18 +63,40 @@ export default function Scene() {
         </mesh>
       </Draggable> */}
 
+      <Orbit drag={drag} />
+    </Canvas>
+  );
+}
+
+const Orbit = ({ drag }: { drag: boolean }) => {
+  const controlsRef = useRef<OrbitControlsImpl>(null);
+
+  return (
+    <>
       <OrbitControls
         enabled={!drag}
+        ref={controlsRef}
         makeDefault
-        minPolarAngle={0}
-        maxPolarAngle={Math.PI / 2.15}
         target={[0, -1, 0]}
         minDistance={10}
         maxDistance={100}
       />
-    </Canvas>
+
+      <GizmoHelper
+        alignment="bottom-right"
+        margin={[80, 80]}
+        onTarget={() => controlsRef?.current?.target || new Vector3()}
+        onUpdate={() => controlsRef.current?.update()}
+      >
+        <GizmoViewcube
+          color="rgba(255, 255, 255, 0.2)"
+          strokeColor="#ccc"
+          textColor="#333"
+        />
+      </GizmoHelper>
+    </>
   );
-}
+};
 
 const Lights = () => {
   return (
