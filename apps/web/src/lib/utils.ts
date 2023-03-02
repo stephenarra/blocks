@@ -3,7 +3,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { uniqueId } from "lodash";
 
-export const SIZE = 11;
+export const SIZE = 21;
 export const BLOCK_SIZE = 1;
 
 // snap x, y, z to grid

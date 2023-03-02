@@ -5,6 +5,8 @@ import { CubesRenderer } from "@/components/editor/Cubes";
 import { SharedState, getBaseDocument } from "@/stores/editor/store";
 import { OrbitControls } from "@react-three/drei";
 
+import { SIZE } from "@/lib/utils";
+
 const ModelCard = ({ model, orbit }: { model: Model; orbit?: boolean }) => {
   const data = useMemo(() => {
     const ydoc = getBaseDocument(model.data);
@@ -14,7 +16,10 @@ const ModelCard = ({ model, orbit }: { model: Model; orbit?: boolean }) => {
   }, [model.data]);
 
   return (
-    <Canvas shadows camera={{ fov: 45, position: [20, 15, 20] }}>
+    <Canvas
+      shadows
+      camera={{ fov: 45, position: [SIZE * 2, SIZE * 1.5, SIZE * 2] }}
+    >
       <ambientLight intensity={0.3} />
       <pointLight castShadow intensity={0.8} position={[200, 200, 0]} />
       <CubesRenderer data={data} />

@@ -8,6 +8,7 @@ import UserIndication from "./UserIndication";
 import KeyboardEvents from "./KeyboardEvents";
 import PointerControls from "./PointerControls";
 import SelectedCubes from "./SelectedCubes";
+import { SIZE } from "@/lib/utils";
 
 export default function Scene() {
   const [drag, setDrag] = useState(false);
@@ -23,7 +24,7 @@ export default function Scene() {
       data-testid="scene"
       shadows
       gl={{ alpha: false }}
-      camera={{ fov: 45, position: [20, 15, 20] }}
+      camera={{ fov: 45, position: [SIZE * 2, SIZE * 1.5, SIZE * 2] }}
       // onContextMenu={(e) => {
       //   // needed to make orbit controls and radix context menu work together
       //   e.defaultPrevented = false;
