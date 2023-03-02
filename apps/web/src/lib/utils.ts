@@ -34,3 +34,5 @@ export const getNextId = (prefix: string, existing: string[]) => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export { ClassValue };

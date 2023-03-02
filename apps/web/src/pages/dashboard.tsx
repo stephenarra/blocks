@@ -4,7 +4,7 @@ import { Loader2, Plus } from "lucide-react";
 import { api } from "@/utils/api";
 import { Button } from "@/lib/ui/button";
 import Layout from "@/components/home/Layout";
-import ModelList from "@/components/home/ModelList";
+import ModelGrid from "@/components/home/ModelGrid";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -39,8 +39,8 @@ export default function Dashboard() {
       )}
 
       {models ? (
-        <div className="px-10 md:px-16">
-          <ModelList models={models} getLink={(m) => `/m/${m.id}/edit`} />
+        <div className="mx-auto w-full max-w-7xl px-10 py-8 md:px-16">
+          <ModelGrid models={models} getLink={(m) => `/m/${m.id}/edit`} />
         </div>
       ) : (
         <div className="flex h-full w-full items-center justify-center">

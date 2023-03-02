@@ -36,9 +36,29 @@ export const modelRouter = createTRPCRouter({
       return ctx.prisma.model.findUnique({ where: { id: input.id } });
     }),
 
-  getPublished: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.model.findMany({ where: { published: true } });
-  }),
+  getPublished: publicProcedure
+    .input(
+      z
+        .object({ limit: z.number().optional(), page: z.number().optional() })
+        .optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit || 8;
+      const page = input?.page || 0;
+
+      // must create a seperate count query for now: https://github.com/prisma/prisma/issues/7550
+      const res = await ctx.prisma.$transaction([
+        ctx.prisma.model.count({ where: { published: true } }),
+        ctx.prisma.model.findMany({
+          where: { published: true },
+          include: { author: true },
+          skip: limit * page,
+          take: limit,
+        }),
+      ]);
+
+      return { count: res[0], data: res[1] };
+    }),
 
   getMine: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.model.findMany({

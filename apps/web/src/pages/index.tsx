@@ -1,11 +1,13 @@
-import Layout from "@/components/home/Layout";
 import { type NextPage } from "next";
 import Link from "next/link";
-import { Button } from "@/lib/ui/button";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { signIn, useSession } from "next-auth/react";
-import { ExploreModels } from "./explore";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/lib/ui/button";
+import { api } from "@/utils/api";
+import ModelGrid from "@/components/home/ModelGrid";
+import Layout from "@/components/home/Layout";
 
 const variants = {
   top: {
@@ -28,6 +30,27 @@ const variants = {
     initial: { opacity: 0 },
     animate: { duration: 1, opacity: 1 },
   },
+};
+
+const ExploreSection = () => {
+  const { data } = api.model.getPublished.useQuery({ limit: 8 });
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 sm:px-6 md:py-16 lg:py-20 lg:px-14 xl:py-24">
+      <div className="flex flex-col items-center gap-4 pb-8 text-center lg:items-start lg:text-left ">
+        <motion.div className="text-3xl font-bold leading-[1.1] tracking-tighter sm:text-4xl md:text-4xl">
+          Explore
+        </motion.div>
+      </div>
+      {!!data ? (
+        <ModelGrid models={data.data} />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      )}
+    </div>
+  );
 };
 
 const Home: NextPage = () => {
@@ -88,14 +111,7 @@ const Home: NextPage = () => {
         </div>
       </div>
       <hr className="border-slate-200" />
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12 sm:px-6 md:py-16 lg:py-20 lg:px-14 xl:py-24">
-        <div className="flex flex-col items-center gap-4 pb-8 text-center lg:items-start lg:text-left ">
-          <motion.div className="text-3xl font-bold leading-[1.1] tracking-tighter sm:text-4xl md:text-4xl">
-            Explore
-          </motion.div>
-        </div>
-        <ExploreModels />
-      </div>
+      <ExploreSection />
     </Layout>
   );
 };
