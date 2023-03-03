@@ -12,8 +12,29 @@ const items = [
   { title: "Explore", disabled: false, href: "/explore" },
 ];
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Navigation = ({ onClick }: { onClick?: () => void }) => {
   const router = useRouter();
+  return (
+    <>
+      {items?.map((item, index) => (
+        <Link
+          key={index}
+          href={item.disabled ? "#" : item.href}
+          onClick={onClick}
+          className={cn(
+            "flex items-center text-lg font-semibold text-slate-600 sm:text-sm",
+            item.href === router.pathname && "text-slate-900",
+            item.disabled && "cursor-not-allowed opacity-80"
+          )}
+        >
+          {item.title}
+        </Link>
+      ))}
+    </>
+  );
+};
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -22,23 +43,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="my-2 flex h-14 shrink-0 items-center justify-between px-8">
         <div className="flex items-center gap-6">
           <Logo />
-          {items?.length ? (
-            <nav className="hidden gap-6 md:flex">
-              {items?.map((item, index) => (
-                <Link
-                  key={index}
-                  href={item.disabled ? "#" : item.href}
-                  className={cn(
-                    "flex items-center text-lg font-semibold text-slate-600 sm:text-sm",
-                    item.href === router.pathname && "text-slate-900",
-                    item.disabled && "cursor-not-allowed opacity-80"
-                  )}
-                >
-                  {item.title}
-                </Link>
-              ))}
-            </nav>
-          ) : null}
+
+          <nav className="hidden gap-6 md:flex">
+            <Navigation />
+          </nav>
         </div>
 
         <div className="flex items-center gap-2">
@@ -64,13 +72,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       <div className="relative flex flex-1">
-        {/* overflow-hidden */}
         {/* Mobile Sidebar */}
         <div className="lg:hidden">
           {mobileMenuOpen && (
-            <div className="absolute top-0 bottom-0 left-0 z-20 w-80 overflow-y-auto bg-white shadow lg:hidden">
+            <div className="absolute top-0 left-0 right-0 z-20 overflow-y-auto bg-white shadow lg:hidden">
               <div className="mt-6 flex flex-col gap-4">
                 <UserDropdown mobile={true} />
+
+                <nav className="mb-6 flex flex-col items-center gap-4 px-6">
+                  <Navigation
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                    }}
+                  />
+                </nav>
               </div>
             </div>
           )}
