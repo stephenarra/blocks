@@ -77,7 +77,7 @@ const Orbit = ({ drag }: { drag: boolean }) => {
         enabled={!drag}
         ref={controlsRef}
         makeDefault
-        target={[0, -1, 0]}
+        target={[SIZE / 2, SIZE / 2, SIZE / 2]}
         minDistance={10}
         maxDistance={100}
       />

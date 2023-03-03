@@ -33,6 +33,7 @@ export default function Pagination({
       >
         <ChevronLeft />
       </Button>
+      {/* Showing all pages for now, should limit what's shown */}
       {[...Array(pageCount)].map((_d, i) => (
         <Button
           key={i}
@@ -51,26 +52,4 @@ export default function Pagination({
       </Button>
     </div>
   );
-}
-
-function PreviousButton() {
-  return <Button variant="ghost"></Button>;
-}
-
-{
-  /* <Pagination.Root
-  itemsPerPage={itemsPerPage}
-  total={total}
-  page={page}
-  defaultPage={defaultPage}
-  onPageChange={(page) => {  } }
->
-  <Pagination.Previous></Pagination.Previous>
-  <Pagination.List>
-    {(items) =>
-      items.map((item) => <PaginationItem /> )
-    }
-  </Pagination.List>
-  <Pagination.Next></Pagination.Next>
-</Pagination.Root> */
 }
