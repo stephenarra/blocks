@@ -23,17 +23,18 @@ const faceDirection = [
   [0, 0, -1],
 ];
 
-const getPosition = (evt, out = true) => {
+const getPosition = (evt, offset, out = true) => {
   if (evt.object.name === "ground") {
-    return snap(evt.point);
+    // return snap(evt.point.clone());
+    return snap(evt.point.clone().sub(new THREE.Vector3(...offset)));
   }
 
   if (evt.object.name === "cube" && evt.faceIndex) {
-    const offset = faceDirection[Math.floor(evt.faceIndex / 2)];
+    const cubeOffset = faceDirection[Math.floor(evt.faceIndex / 2)];
     const pos = evt.object.position.clone();
     if (out) {
       // return position out from the hovered cube
-      return pos.add(new THREE.Vector3(...offset));
+      return pos.add(new THREE.Vector3(...cubeOffset));
     }
     return pos;
   }
@@ -59,7 +60,7 @@ const getBoundingBox = (startPos, endPos) => {
  * Need typings for r3f and use-gesture, keeping this as jsx for now
  * https://github.com/pmndrs/use-gesture/discussions/287
  */
-export default function PointerControls({ children }) {
+export default function PointerControls({ offset, children }) {
   const {
     setPosition,
     addCubes,
@@ -83,7 +84,7 @@ export default function PointerControls({ children }) {
       );
     },
     [DRAW_MODE]: (event) => {
-      const pos = getPosition(event);
+      const pos = getPosition(event, offset);
       if (!pos) return;
       addCubes([pos.toArray()]);
     },
@@ -105,7 +106,7 @@ export default function PointerControls({ children }) {
         if (event.object.type === "Object" || dragInfo.current) return;
         event.stopPropagation();
 
-        const pos = getPosition(event, mode === DRAW_MODE);
+        const pos = getPosition(event, offset, mode === DRAW_MODE);
         setPosition(pos ? pos.toArray() : null);
       },
       onPointerOut: () => {
@@ -113,7 +114,7 @@ export default function PointerControls({ children }) {
       },
       onPointerDown: ({ event }) => {
         event.stopPropagation();
-        const pos = getPosition(event, mode === DRAW_MODE);
+        const pos = getPosition(event, offset, mode === DRAW_MODE);
         dragInfo.current = { down: pos };
       },
       onClick: ({ event }) => {
@@ -131,7 +132,8 @@ export default function PointerControls({ children }) {
         }
         // use pointer down position, the start drag position may be off due to "filterTaps"
         const pos =
-          dragInfo.current.down || getPosition(event, mode === DRAW_MODE);
+          dragInfo.current.down ||
+          getPosition(event, offset, mode === DRAW_MODE);
         if (!pos) return;
 
         dragInfo.current = { start: pos };
@@ -144,7 +146,7 @@ export default function PointerControls({ children }) {
           setPosition(null);
           return;
         }
-        const pos = getPosition(event, mode === DRAW_MODE);
+        const pos = getPosition(event, offset, mode === DRAW_MODE);
         setPosition(pos ? pos.toArray() : null);
         if (!pos) return;
 

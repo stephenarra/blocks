@@ -1,25 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, GizmoHelper, GizmoViewcube } from "@react-three/drei";
+import { SIZE } from "@/lib/utils";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { Vector3 } from "three";
+import { useLocalState } from "@/stores/editor/useStore";
 
 import Cubes from "./Cubes";
 import Background from "./Background";
 import UserIndication from "./UserIndication";
 import KeyboardEvents from "./KeyboardEvents";
-import PointerControls from "./PointerControls";
 import SelectedCubes from "./SelectedCubes";
-import { SIZE } from "@/lib/utils";
-import { Vector3 } from "three";
 
 export default function Scene() {
-  const [drag, setDrag] = useState(false);
-
-  const dragProps = {
-    onDragStart: () => setDrag(true),
-    onDragEnd: () => setDrag(false),
-  };
-
   return (
     // <ContextMenu></ContextMenu>
     <Canvas
@@ -40,12 +33,16 @@ export default function Scene() {
       <UserIndication />
       <SelectedCubes />
 
-      <PointerControls {...dragProps}>
+      {/* <PointerControls {...dragProps}>
         <group position={[-0.5, -0.5, -0.5]}>
           <Background />
         </group>
         <Cubes />
-      </PointerControls>
+      </PointerControls> */}
+      <group position={[-0.5, -0.5, -0.5]}>
+        <Background />
+      </group>
+      <Cubes />
 
       {/* Paint Brush */}
       {/* <BrushControls {...dragProps}/> */}
@@ -63,18 +60,19 @@ export default function Scene() {
         </mesh>
       </Draggable> */}
 
-      <Orbit drag={drag} />
+      <Orbit />
     </Canvas>
   );
 }
 
-const Orbit = ({ drag }: { drag: boolean }) => {
+const Orbit = () => {
   const controlsRef = useRef<OrbitControlsImpl>(null);
+  const { dragging } = useLocalState();
 
   return (
     <>
       <OrbitControls
-        enabled={!drag}
+        enabled={!dragging}
         ref={controlsRef}
         makeDefault
         target={[SIZE / 2, SIZE / 2, SIZE / 2]}
