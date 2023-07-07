@@ -15,7 +15,14 @@ export const DRAW_MODE = "draw" as const;
 export const SELECT_MODE = "select" as const;
 export const ERASE_MODE = "erase" as const;
 export const COLOR_MODE = "color" as const;
-const MODES = [DRAW_MODE, SELECT_MODE, ERASE_MODE, COLOR_MODE] as const;
+export const TRANSLATE_MODE = "translate" as const;
+const MODES = [
+  DRAW_MODE,
+  SELECT_MODE,
+  ERASE_MODE,
+  COLOR_MODE,
+  TRANSLATE_MODE,
+] as const;
 
 type Mode = (typeof MODES)[number];
 
@@ -24,6 +31,7 @@ export type Position = [x: number, y: number, z: number];
 export interface Layer {
   name: string;
   visible: boolean;
+  position: Position;
 }
 
 export interface Cube {
@@ -44,6 +52,7 @@ export interface LocalState {
   activeLayer: string;
   selected: string[];
   mode: Mode;
+  dragging: boolean;
 }
 
 export interface AwarenessProps {
@@ -55,7 +64,7 @@ export interface AwarenessProps {
 
 export const DEFAULT_SHARED_STATE: SharedState = {
   cubes: {},
-  layers: { layer_1: { name: "Layer 1", visible: true } },
+  layers: { layer_1: { name: "Layer 1", visible: true, position: [0, 0, 0] } },
   layerOrder: ["layer_1"],
 };
 
@@ -65,6 +74,7 @@ const DEFAULT_LOCAL_STATE: LocalState = {
   activeLayer: "layer_1",
   selected: [],
   mode: DRAW_MODE,
+  dragging: false,
 };
 const AWARENESS_PROPS = ["color", "position", "mode"];
 const wsServerUrl = env.NEXT_PUBLIC_WS_SERVER || "ws://localhost:4444";
@@ -213,6 +223,10 @@ export const createStore = (model: Model) => {
       localState.mode = mode;
     },
 
+    setDragging: (dragging: boolean) => {
+      localState.dragging = dragging;
+    },
+
     // this might want to be the in the component
     // could be boxSelect, boxDraw, boxErase
     onBoxSelect: (box: THREE.Box3, append?: boolean) => {
@@ -250,6 +264,7 @@ export const createStore = (model: Model) => {
       sharedState.layers[id] = {
         name: `Layer ${sharedState.layerOrder.length + 1}`,
         visible: true,
+        position: [0, 0, 0],
       };
       sharedState.layerOrder.push(id);
       capture();

@@ -1,9 +1,16 @@
-import { MousePointer2, Pencil, Eraser, Paintbrush } from "lucide-react";
+import {
+  MousePointer2,
+  Pencil,
+  Eraser,
+  Paintbrush,
+  Move3d,
+} from "lucide-react";
 import {
   SELECT_MODE,
   DRAW_MODE,
   ERASE_MODE,
   COLOR_MODE,
+  TRANSLATE_MODE,
 } from "@/stores/editor/store";
 import { useActions, useLocalState } from "@/stores/editor/useStore";
 import Control from "../shared/Control";
@@ -51,6 +58,15 @@ const CanvasControls = () => {
         Icon={Paintbrush}
         label="Color"
         shortcut="C"
+      />
+      <Control
+        className={mode === TRANSLATE_MODE && SELECTED_CLASSES}
+        onClick={() => {
+          setMode(TRANSLATE_MODE);
+        }}
+        Icon={Move3d}
+        label="Translate"
+        shortcut="T"
       />
     </div>
   );
